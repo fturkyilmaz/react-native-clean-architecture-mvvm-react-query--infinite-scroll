@@ -8,6 +8,12 @@ export class PokemonRepository implements IPokemonRepository {
       params: {offset, limit},
     });
     const data = response?.data;
-    return data?.results?.map((poke: any) => new Pokemon(poke.name, poke.url));
+    return data?.results?.map(({name, url}: any) =>
+      Pokemon.setPokemonData({
+        image: `https://img.pokemondb.net/artwork/${name}.jpg`,
+        name,
+        url,
+      }),
+    );
   }
 }

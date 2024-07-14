@@ -44,7 +44,7 @@ const PokemonScreen: React.FC = () => {
             <FastImage
               style={styles.image}
               source={{
-                uri: `https://img.pokemondb.net/artwork/${item.name}.jpg`,
+                uri: item.image,
                 priority: FastImage.priority.high,
               }}
               resizeMode={FastImage.resizeMode.contain}

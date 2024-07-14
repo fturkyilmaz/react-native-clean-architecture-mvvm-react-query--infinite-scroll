@@ -18,7 +18,7 @@ rickAndMortyApiClient.interceptors.request.use(
 
 rickAndMortyApiClient.interceptors.response.use(
   response => {
-    console.log('Rick and Morty API Response:', response);
+    console.log('Rick and Morty API Response:', response?.data);
     return response;
   },
   error => {
@@ -45,7 +45,7 @@ pokeApiClient.interceptors.request.use(
 
 pokeApiClient.interceptors.response.use(
   response => {
-    console.log('PokeAPI Response:', response);
+    console.log('PokeAPI Response:', response?.data);
     return response;
   },
   error => {
