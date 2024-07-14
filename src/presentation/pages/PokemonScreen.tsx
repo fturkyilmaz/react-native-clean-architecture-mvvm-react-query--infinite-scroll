@@ -63,6 +63,7 @@ const PokemonScreen: React.FC = () => {
             fetchNextPage();
           }
         }}
+        removeClippedSubviews={true}
         onEndReachedThreshold={0.8}
         ListEmptyComponent={
           <View style={styles.listEmptyComponent}>
