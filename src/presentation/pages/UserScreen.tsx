@@ -9,11 +9,13 @@ import {
 import React from 'react';
 import useUsersViewModel from '../viewModels/UsersViewModel';
 import {useNavigation} from '@react-navigation/native';
+import {NativeStackNavigationProp} from '@react-navigation/native-stack';
+import {AppStackParams} from '../../../App';
 
 export default function UserScreen() {
   const {users, loading} = useUsersViewModel();
 
-  const navigation = useNavigation();
+  const navigation = useNavigation<NativeStackNavigationProp<AppStackParams>>();
 
   const goToNavigate = (id: number) => {
     navigation.navigate('UserDetail', {id});

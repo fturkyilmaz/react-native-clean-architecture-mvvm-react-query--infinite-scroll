@@ -1,7 +1,6 @@
 import {
   View,
   Text,
-  FlatList,
   ActivityIndicator,
   StyleSheet,
   RefreshControl,
@@ -79,7 +78,7 @@ const PokemonScreen: React.FC = () => {
 };
 
 const styles = StyleSheet.create({
-  container: {flex: 1, padding: 20, backgroundColor: '#fff'},
+  container: {flex: 1, padding: 20},
   listEmptyComponent: {},
   cardContainer: {
     padding: 10,

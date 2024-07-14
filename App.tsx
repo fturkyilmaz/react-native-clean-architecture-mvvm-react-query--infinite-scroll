@@ -1,21 +1,46 @@
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import React from 'react';
 import UserScreen from './src/presentation/pages/UserScreen';
-import {NavigationContainer} from '@react-navigation/native';
+import {
+  DefaultTheme,
+  NavigationContainer,
+  RouteProp,
+} from '@react-navigation/native';
 import UserDetailScreen from './src/presentation/pages/UserDetailScreen';
 import CharacterScreen from './src/presentation/pages/CharacterScreen';
 import {QueryClient, QueryClientProvider} from 'react-query';
 import PokemonScreen from './src/presentation/pages/PokemonScreen';
 import {StatusBar} from 'react-native';
+import {UserDetailParams} from './src/presentation/types/NavigationType';
 
-const Stack = createNativeStackNavigator();
 const queryClient = new QueryClient();
+
+const theme = Object.freeze({
+  ...DefaultTheme,
+  colors: {
+    ...DefaultTheme.colors,
+    background: '#fff',
+  },
+});
+
+export type AppStackParams = {
+  Pokemon: undefined;
+  Characters: undefined;
+  User: undefined;
+  UserDetail: UserDetailParams;
+};
+export type RootRouteProps<RouteName extends keyof AppStackParams> = RouteProp<
+  AppStackParams,
+  RouteName
+>;
+
+const Stack = createNativeStackNavigator<AppStackParams>();
 
 export default function MyStack() {
   return (
     <QueryClientProvider client={queryClient}>
       <StatusBar backgroundColor={'#fff'} barStyle={'dark-content'} />
-      <NavigationContainer>
+      <NavigationContainer theme={theme}>
         <Stack.Navigator
           initialRouteName="Pokemon"
           screenOptions={{headerTitleStyle: {color: 'black'}}}>

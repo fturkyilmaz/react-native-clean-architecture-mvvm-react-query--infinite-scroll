@@ -2,9 +2,10 @@ import {View, Text, SafeAreaView} from 'react-native';
 import React from 'react';
 import {useRoute} from '@react-navigation/native';
 import useUserViewModel from '../viewModels/UserViewModel';
+import {RootRouteProps} from '../../../App';
 
 export default function UserDetailScreen() {
-  const {id} = useRoute()?.params;
+  const {id} = useRoute<RootRouteProps<'UserDetail'>>()?.params;
 
   const {user} = useUserViewModel(id);
 
