@@ -6,7 +6,6 @@ const characterRepository = new CharacterRepository();
 const getCharactersUseCase = new GetCharactersUseCase(characterRepository);
 
 const fetchCharacters = async ({pageParam = 1}: {pageParam: number}) => {
-  console.log('PageParam', pageParam);
   return await getCharactersUseCase.execute(pageParam);
 };
 
