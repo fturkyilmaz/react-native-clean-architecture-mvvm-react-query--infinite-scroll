@@ -3,12 +3,13 @@ import {
   Text,
   FlatList,
   ActivityIndicator,
-  Image,
   StyleSheet,
+  RefreshControl,
 } from 'react-native';
 import React from 'react';
 import usePokemonViewModel from '../viewModels/PokemonViewModel';
 import {Pokemon} from '../../domain/entities/Pokemon';
+import FastImage from 'react-native-fast-image';
 
 const PokemonScreen: React.FC = () => {
   const {
@@ -18,6 +19,8 @@ const PokemonScreen: React.FC = () => {
     isFetchingNextPage,
     fetchNextPage,
     hasNextPage,
+    isRefreshing,
+    onRefresh,
   } = usePokemonViewModel();
 
   if (isFetching && !isFetchingNextPage) {
@@ -31,19 +34,27 @@ const PokemonScreen: React.FC = () => {
   return (
     <View style={styles.container}>
       <FlatList<Pokemon>
+        initialNumToRender={10}
         data={pokemons}
+        refreshControl={
+          <RefreshControl refreshing={isRefreshing} onRefresh={onRefresh} />
+        }
         keyExtractor={item => item.name}
         renderItem={({item}) => (
           <View style={styles.cardContainer}>
-            <Image
+            <FastImage
+              style={styles.image}
               source={{
                 uri: `https://img.pokemondb.net/artwork/${item.name}.jpg`,
+                priority: FastImage.priority.high,
               }}
-              style={styles.image}
-              resizeMode="contain"
+              resizeMode={FastImage.resizeMode.contain}
             />
+
             <View style={styles.textContainer}>
-              <Text style={styles.title}>{item.name}</Text>
+              <Text style={styles.title} adjustsFontSizeToFit>
+                {item.name}
+              </Text>
             </View>
           </View>
         )}
@@ -53,6 +64,11 @@ const PokemonScreen: React.FC = () => {
           }
         }}
         onEndReachedThreshold={0.8}
+        ListEmptyComponent={
+          <View style={styles.listEmptyComponent}>
+            <Text>Empty Data</Text>
+          </View>
+        }
         ListFooterComponent={
           isFetchingNextPage ? <ActivityIndicator size="large" /> : null
         }
@@ -63,6 +79,7 @@ const PokemonScreen: React.FC = () => {
 
 const styles = StyleSheet.create({
   container: {flex: 1, padding: 20, backgroundColor: '#fff'},
+  listEmptyComponent: {},
   cardContainer: {
     padding: 10,
     borderBottomWidth: 1,
@@ -71,7 +88,12 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   image: {width: 100, height: 100, marginRight: 10},
-  title: {fontSize: 20, fontWeight: '800', textTransform: 'capitalize'},
+  title: {
+    color: 'black',
+    fontSize: 20,
+    fontWeight: '800',
+    textTransform: 'capitalize',
+  },
   textContainer: {gap: 5},
 });
 

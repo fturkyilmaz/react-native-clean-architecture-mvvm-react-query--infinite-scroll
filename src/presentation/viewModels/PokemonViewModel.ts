@@ -1,6 +1,7 @@
 import {useInfiniteQuery} from 'react-query';
 import {GetPokemonsUseCase} from '../../domain/usecases/GetPokemonsUseCase';
 import {PokemonRepository} from '../../application/repositories/PokemonRepository';
+import {useCallback, useMemo, useState} from 'react';
 
 const pokemonRepository = new PokemonRepository();
 const getPokemonsUseCase = new GetPokemonsUseCase(pokemonRepository);
@@ -12,29 +13,51 @@ const fetchPokemons = async ({pageParam = 0}) => {
 };
 
 export default function usePokemonViewModel() {
+  const [isRefreshing, setIsRefreshing] = useState<boolean>(false);
+
   const {
     data,
     error,
     fetchNextPage,
     hasNextPage,
+    refetch,
     isFetching,
     isFetchingNextPage,
   } = useInfiniteQuery(
     ['pokemons'],
     ({pageParam}) => fetchPokemons({pageParam}),
     {
-      getNextPageParam: (lastPage, allPages) => {
+      getNextPageParam: (_, allPages) => {
         return allPages.length;
       },
     },
   );
 
+  const onRefresh = useCallback(() => {
+    if (!isRefreshing) {
+      setIsRefreshing(true);
+      refetch()
+        .then(() => setIsRefreshing(false))
+        .catch(() => setIsRefreshing(false));
+    }
+  }, [isRefreshing, refetch]);
+
+  const loadNext = useCallback(() => {
+    hasNextPage && fetchNextPage();
+  }, [fetchNextPage, hasNextPage]);
+
+  const flattenData = useMemo(() => {
+    return data?.pages.flat() || [];
+  }, [data?.pages]);
+
   return {
-    pokemons: data ? data.pages.flat() : [],
+    pokemons: flattenData,
     error,
     isFetching,
     isFetchingNextPage,
-    fetchNextPage,
+    fetchNextPage: loadNext,
     hasNextPage,
+    isRefreshing,
+    onRefresh,
   };
 }
