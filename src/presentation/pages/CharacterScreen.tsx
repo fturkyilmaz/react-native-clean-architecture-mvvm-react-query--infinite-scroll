@@ -42,7 +42,7 @@ const CharacterScreen: React.FC = () => {
             />
             <View style={styles.textContainer}>
               <Text style={styles.title}>{item.name}</Text>
-              <Text>
+              <Text style={styles.description}>
                 {item.species} - {item.status}
               </Text>
             </View>
@@ -72,7 +72,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   image: {width: 100, height: 100, marginRight: 10},
-  title: {fontSize: 20, fontWeight: '800'},
+  title: {fontSize: 20, fontWeight: '800', color: '#000'},
+  description: {fontSize: 14, fontWeight: '400', color: '#000'},
   textContainer: {gap: 5},
 });
 

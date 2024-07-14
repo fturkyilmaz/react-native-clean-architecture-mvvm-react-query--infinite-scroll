@@ -1,13 +1,57 @@
-export const fetchCharacters = async (page: number) => {
-  const response = await fetch(
-    `https://rickandmortyapi.com/api/character?page=${page}`,
-  );
-  return await response.json();
-};
+import axios from 'axios';
 
-export const fetchPokemons = async (limit: number, offset: number) => {
-  const response = await fetch(
-    `https://pokeapi.co/api/v2/pokemon?limit=${limit}&offset=${offset}`,
-  );
-  return await response.json();
-};
+// Rick and Morty API Client
+const rickAndMortyApiClient = axios.create({
+  baseURL: 'https://rickandmortyapi.com/api/',
+  timeout: 10000,
+});
+
+rickAndMortyApiClient.interceptors.request.use(
+  config => {
+    console.log('Rick and Morty API Request:', config);
+    return config;
+  },
+  error => {
+    return Promise.reject(error);
+  },
+);
+
+rickAndMortyApiClient.interceptors.response.use(
+  response => {
+    console.log('Rick and Morty API Response:', response);
+    return response;
+  },
+  error => {
+    console.error('Rick and Morty API Response Error:', error);
+    return Promise.reject(error);
+  },
+);
+
+// PokeAPI Client
+const pokeApiClient = axios.create({
+  baseURL: 'https://pokeapi.co/api/v2/',
+  timeout: 10000,
+});
+
+pokeApiClient.interceptors.request.use(
+  config => {
+    console.log('PokeAPI Request:', config);
+    return config;
+  },
+  error => {
+    return Promise.reject(error);
+  },
+);
+
+pokeApiClient.interceptors.response.use(
+  response => {
+    console.log('PokeAPI Response:', response);
+    return response;
+  },
+  error => {
+    console.error('PokeAPI Response Error:', error);
+    return Promise.reject(error);
+  },
+);
+
+export {rickAndMortyApiClient, pokeApiClient};

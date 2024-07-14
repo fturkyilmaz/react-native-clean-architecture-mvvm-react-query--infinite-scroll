@@ -1,6 +1,6 @@
 import {useInfiniteQuery} from 'react-query';
 import {GetCharactersUseCase} from '../../domain/usecases/GetCharactersUseCase';
-import {CharacterRepository} from '../../application/repositories/CharRepository';
+import {CharacterRepository} from '../../application/repositories/CharacterRepository';
 
 const characterRepository = new CharacterRepository();
 const getCharactersUseCase = new GetCharactersUseCase(characterRepository);

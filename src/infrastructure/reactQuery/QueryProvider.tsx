@@ -18,6 +18,8 @@ const queryClient = new QueryClient({
 // Export the QueryClientProvider with our instantiated queryClient
 export const QueryProvider = ({children}: PropsWithChildren) => {
   return (
-    <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
+    <QueryClientProvider client={queryClient} contextSharing={true}>
+      {children}
+    </QueryClientProvider>
   );
 };
