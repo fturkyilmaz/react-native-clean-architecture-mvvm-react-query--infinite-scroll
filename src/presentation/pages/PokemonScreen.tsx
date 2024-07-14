@@ -10,7 +10,7 @@ import React from 'react';
 import usePokemonViewModel from '../viewModels/PokemonViewModel';
 import {Pokemon} from '../../domain/entities/Pokemon';
 import FastImage from 'react-native-fast-image';
-
+import {FlashList} from '@shopify/flash-list';
 const PokemonScreen: React.FC = () => {
   const {
     pokemons,
@@ -33,8 +33,8 @@ const PokemonScreen: React.FC = () => {
 
   return (
     <View style={styles.container}>
-      <FlatList<Pokemon>
-        initialNumToRender={10}
+      <FlashList<Pokemon>
+        estimatedItemSize={10}
         data={pokemons}
         refreshControl={
           <RefreshControl refreshing={isRefreshing} onRefresh={onRefresh} />

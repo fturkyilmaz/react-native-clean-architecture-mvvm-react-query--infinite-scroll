@@ -12,6 +12,7 @@
   "dependencies": {
     "@react-navigation/native": "^6.1.17",
     "@react-navigation/native-stack": "^6.10.0",
+    "@shopify/flash-list": "^1.7.0",
     "@tanstack/react-query": "^5.51.1",
     "axios": "^1.7.2",
     "lodash": "^4.17.21",
